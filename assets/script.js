@@ -7,9 +7,19 @@ var searchButton = document.querySelector("#search-button");
 var savedCitiesDisplay = document.querySelector("#saved-cities-list");
 
 var searchTerm; //This will be the saved, trimmed, and returned value of the search input
-
+// var searchLat = saveLat ();
+// var searchLon = saveLon();
 var apiKey = "f024b9c17a84301bd1b8cac7935e5c74";
 
+function checkStorage () {
+    var savedCities = localStorage.getItem("saved cities");
+    if (savedCities) {
+        savedCities = JSON.parse(savedCities);
+    } else {
+        savedCities = [];
+    }
+    return savedCities;
+}
 
 searchButton.addEventListener("click", function () {
     searchTerm = searchInput.value;
@@ -21,8 +31,14 @@ searchButton.addEventListener("click", function () {
             return response.json();
         })
         .then (function (data) {
-            console.log(data);
-            console.log(data[0].lat);
-            console.log(data[0].lon);
-        });
-});
+            var newCity = {
+                name: data[0].name,
+                latitude: data[0].lat,
+                longitude: data[0].lon
+            }
+            var savedCities = checkStorage();
+            savedCities.push(newCity);
+            localStorage.setItem("search city", JSON.stringify(newCity))
+            localStorage.setItem("saved cities", JSON.stringify(savedCities)) 
+        }
+    )});
