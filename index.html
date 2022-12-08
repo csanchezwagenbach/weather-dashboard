@@ -22,8 +22,21 @@
 
     <main class="container-fluid">
        <div class="row">
-        <section class="col-12 col-md-8 col-lg-9">
-            <p>Testing</p>
+        <section class="col-12 col-md-8 col-lg-9 my-2">
+            
+            <div class="card">
+                <div class="card-body" id="current-weather-display">
+                  This is where the current city will display with current weather.
+                </div>
+            </div>
+
+            <h5>5 Day Forecast:</h5>
+
+            <section>
+                <div class="row" id="future-forecast-display">
+                    <p>When I print cards here, I will need to make sure I give them the correct grid sizing properties.</p>
+                </div>
+            </section>
 
         </section>
 
@@ -31,7 +44,7 @@
             
             <div class="input-group mb-3 my-2">
                 
-                <input type="text" class="form-control" placeholder="Enter city name" aria-label="location name" aria-describedby="button-addon2">
+                <input type="text" class="form-control" id="search-term" placeholder="Enter city name" aria-label="location name" aria-describedby="button-addon2">
                 
                 <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
               
