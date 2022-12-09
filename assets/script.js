@@ -11,26 +11,26 @@ var searchTerm; //This will be the saved, trimmed, and returned value of the sea
 // var searchLon = saveLon();
 var apiKey = "f024b9c17a84301bd1b8cac7935e5c74";
 
-function getSearchInfo() {
-    searchTerm = searchInput.value;
-    console.log(searchInput.value)
-    console.log(searchTerm);
-    var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + apiKey;
-    var searchCity = fetch(geoCodeUrl)
-                    .then(function (response) {
-                     return response.json();
-                    })
-                    .then(function (data) {
-                        var searchCity = {
-                            name: data[0].name,
-                            latitude: data[0].lat,
-                            longitude: data[0].lon
-                        }
-                        console.log(searchCity);
-                        return searchCity;
-                    })
-            console.log(searchCity);
-        }
+// function getSearchInfo() {
+//     searchTerm = searchInput.value;
+//     console.log(searchInput.value)
+//     console.log(searchTerm);
+//     var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + apiKey;
+//     var searchCity = fetch(geoCodeUrl)
+//                     .then(function (response) {
+//                      return response.json();
+//                     })
+//                     .then(function (data) {
+//                         var searchCity = {
+//                             name: data[0].name,
+//                             latitude: data[0].lat,
+//                             longitude: data[0].lon
+//                         }
+//                         console.log(searchCity);
+//                         return searchCity;
+//                     })
+//             console.log(searchCity);
+//         }
 
 
 function checkStorage() {
@@ -50,22 +50,34 @@ function getCurrentCityDisplay() {
 }
 
 
-searchButton.addEventListener("click", getSearchInfo);
-console.log(searchCity);
+searchButton.addEventListener("click", function(){
+    searchTerm = searchInput.value;
+    console.log(searchInput.value)
+    console.log(searchTerm);
+    var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + apiKey;
+    fetch(geoCodeUrl)
+         .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                var searchCity = {
+                        name: data[0].name,
+                        latitude: data[0].lat,
+                        longitude: data[0].lon
+                    }
+            var savedCities = checkStorage();
+            savedCities.push(searchCity);
+            localStorage.setItem("search city", JSON.stringify(searchCity));
+            localStorage.setItem("saved cities", JSON.stringify(savedCities));
+            // var currentCity = getCurrentCityDisplay();
+            // console.log(currentCity);
+            // var searchLat = currentCity.latitude;
+            // var searchLon = currentCity.longitude;
+            // console.log(searchLat);
+            // console.log(searchLon);
+            // var currentWeatherUrl = "api.openweathermap.org/data/2.5/forecast/daily?lat=" + searchLat + "&lon=" + searchLon + "&cnt=6&appid=" + apiKey
+            // console.log(currentWeatherUrl);
+        }
+        )})
     
-        //     var savedCities = checkStorage();
-        //     savedCities.push(newCity);
-        //     localStorage.setItem("search city", JSON.stringify(newCity));
-        //     localStorage.setItem("saved cities", JSON.stringify(savedCities));
-        //     var currentCity = getCurrentCityDisplay();
-        //     console.log(currentCity);
-        //     var searchLat = currentCity.latitude;
-        //     var searchLon = currentCity.longitude;
-        //     console.log(searchLat);
-        //     console.log(searchLon);
-        //     var currentWeatherUrl = "api.openweathermap.org/data/2.5/forecast/daily?lat=" + searchLat + "&lon=" + searchLon + "&cnt=6&appid=" + apiKey
-        //     console.log(currentWeatherUrl);
-        // }
-        // )
-
 
