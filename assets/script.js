@@ -9,28 +9,9 @@ var savedCitiesDisplay = document.querySelector("#saved-cities-list");
 var searchTerm; //This will be the saved, trimmed, and returned value of the search input
 // var searchLat = saveLat ();
 // var searchLon = saveLon();
-var apiKey = "f024b9c17a84301bd1b8cac7935e5c74";
+var geoApiKey = "f024b9c17a84301bd1b8cac7935e5c74";
+var weatherApiKey = "4c49146a17ca318a41d0d72135a101bf";
 
-// function getSearchInfo() {
-//     searchTerm = searchInput.value;
-//     console.log(searchInput.value)
-//     console.log(searchTerm);
-//     var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + apiKey;
-//     var searchCity = fetch(geoCodeUrl)
-//                     .then(function (response) {
-//                      return response.json();
-//                     })
-//                     .then(function (data) {
-//                         var searchCity = {
-//                             name: data[0].name,
-//                             latitude: data[0].lat,
-//                             longitude: data[0].lon
-//                         }
-//                         console.log(searchCity);
-//                         return searchCity;
-//                     })
-//             console.log(searchCity);
-//         }
 
 
 function checkStorage() {
@@ -46,6 +27,7 @@ function checkStorage() {
 function getCurrentCityDisplay() {
     var currentCity = localStorage.getItem("search city");
     currentCity = JSON.parse(currentCity);
+    console.log(currentCity);
     return currentCity;
 }
 
@@ -54,7 +36,7 @@ searchButton.addEventListener("click", function(){
     searchTerm = searchInput.value;
     console.log(searchInput.value)
     console.log(searchTerm);
-    var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + apiKey;
+    var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + geoApiKey;
     fetch(geoCodeUrl)
          .then(function (response) {
                 return response.json();
@@ -62,22 +44,32 @@ searchButton.addEventListener("click", function(){
             .then(function (data) {
                 var searchCity = {
                         name: data[0].name,
-                        latitude: data[0].lat,
-                        longitude: data[0].lon
+                        latitude: data[0].lat.toFixed(2),
+                        longitude: data[0].lon.toFixed(2),
                     }
+            console.log(searchCity);
             var savedCities = checkStorage();
             savedCities.push(searchCity);
             localStorage.setItem("search city", JSON.stringify(searchCity));
             localStorage.setItem("saved cities", JSON.stringify(savedCities));
-            // var currentCity = getCurrentCityDisplay();
-            // console.log(currentCity);
-            // var searchLat = currentCity.latitude;
-            // var searchLon = currentCity.longitude;
-            // console.log(searchLat);
-            // console.log(searchLon);
-            // var currentWeatherUrl = "api.openweathermap.org/data/2.5/forecast/daily?lat=" + searchLat + "&lon=" + searchLon + "&cnt=6&appid=" + apiKey
-            // console.log(currentWeatherUrl);
+            var currentCity = getCurrentCityDisplay();
+            console.log(currentCity);
+            var searchLat = currentCity.latitude;
+            var searchLon = currentCity.longitude;
+            console.log(searchLat);
+            console.log(searchLon);
+            var currentWeatherUrl = "api.openweathermap.org/data/2.5/forecast/daily?lat=" + searchLat + "&lon=" + searchLon + "&cnt=6&appid=" + weatherApiKey
+            console.log(currentWeatherUrl);
+            getCurrentWeather(currentWeatherUrl);
         }
         )})
     
-
+function getCurrentWeather (currentWeatherUrl) {
+    fetch(currentWeatherUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then (function (data) {
+            console.log(data);
+        })
+}
