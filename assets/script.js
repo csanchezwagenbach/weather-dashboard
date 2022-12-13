@@ -24,52 +24,73 @@ function checkStorage() {
     return savedCities;
 };
 
-function getCurrentCityDisplay() {
-    var currentCity = localStorage.getItem("search city");
-    currentCity = JSON.parse(currentCity);
+function getCurrentCity() {
+    var currentCity = JSON.parse(localStorage.getItem("search city"));
+    //currentCity = JSON.parse(currentCity);
     console.log(currentCity);
     return currentCity;
 }
 
 
-searchButton.addEventListener("click", function(){
+searchButton.addEventListener("click", async function () {
     searchTerm = searchInput.value;
     console.log(searchInput.value)
     console.log(searchTerm);
     var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + geoApiKey;
-    fetch(geoCodeUrl)
-         .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                var searchCity = {
-                        name: data[0].name,
-                        latitude: data[0].lat.toFixed(2),
-                        longitude: data[0].lon.toFixed(2),
-                    }
-            console.log(searchCity);
-            var savedCities = checkStorage();
-            savedCities.push(searchCity);
-            localStorage.setItem("search city", JSON.stringify(searchCity));
-            localStorage.setItem("saved cities", JSON.stringify(savedCities));
-            var currentCity = getCurrentCityDisplay();
-            console.log(currentCity);
-            var searchLat = currentCity.latitude;
-            var searchLon = currentCity.longitude;
-            console.log(searchLat);
-            console.log(searchLon);
-            var currentWeatherUrl = "api.openweathermap.org/data/2.5/forecast/daily?lat=" + searchLat + "&lon=" + searchLon + "&cnt=6&appid=" + weatherApiKey
-            console.log(currentWeatherUrl);
-            getCurrentWeather(currentWeatherUrl);
-        }
-        )})
-    
-function getCurrentWeather (currentWeatherUrl) {
+    await fetch(geoCodeUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) { 
+            var searchCity = {
+        name: data[0].name,
+        latitude: data[0].lat.toFixed(2),
+        longitude: data[0].lon.toFixed(2),
+    }
+    console.log(searchCity);
+    var savedCities = checkStorage();
+    savedCities.push(searchCity);
+    localStorage.setItem("search city", JSON.stringify(searchCity));
+    localStorage.setItem("saved cities", JSON.stringify(savedCities))})
+    var currentCity = getCurrentCity();
+    var searchLat = currentCity.latitude;
+    var searchLon = currentCity.longitude;
+    console.log(searchLat);
+    console.log(searchLon);
+    var currentWeatherUrl = "http://api.openweathermap.org/data/2.5/forecast?lat=" + searchLat + "&lon=" + searchLon + "&appid=" + weatherApiKey
+    console.log(currentWeatherUrl);
+    await fetch(currentWeatherUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+        })
+})
+// var currentCity = getCurrentCity();
+// console.log(currentCity);
+// var searchLat = currentCity.latitude;
+// var searchLon = currentCity.longitude;
+// console.log(searchLat);
+// console.log(searchLon);
+// var currentWeatherUrl = "api.openweathermap.org/data/2.5/forecast?lat=" + searchLat + "&lon=" + searchLon + "&appid=" + weatherApiKey
+// console.log(currentWeatherUrl);
+// fetch(currentWeatherUrl)
+// .then(function (response) {
+//     return response.json();
+// })
+// .then (function (data) {
+//  console.log(data);
+// });
+// }
+// )})
+
+function getCurrentWeather(currentWeatherUrl) {
     fetch(currentWeatherUrl)
         .then(function (response) {
             return response.json();
         })
-        .then (function (data) {
+        .then(function (data) {
             console.log(data);
         })
 }
