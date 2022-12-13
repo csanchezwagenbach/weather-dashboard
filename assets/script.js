@@ -62,6 +62,7 @@ searchButton.addEventListener("click", async function () {
             return response.json();
         })
         .then (function (data) {
+            console.log(data)
             var currentWeather = {
                 name: data.name,
                 temp: data.main.temp,
