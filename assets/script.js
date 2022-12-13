@@ -81,52 +81,54 @@ searchButton.addEventListener("click", async function () {
             return response.json();
         })
         .then(function (data) {
+            console.log(data);
             var forecasts = [];
-            var unixOne = data.list[3].dt
+            var unixOne = data.list[7].dt
+            console.log(dayjs.unix(unixOne).format("MMM D, YYYY"))
             var forecastOne = {
                 date: dayjs.unix(unixOne).format("MMM D, YYYY"),
-                temp: data.list[3].main.temp,
-                humidity: data.list[3].main.humidity,
-                wind: data.list[3].wind.speed,
-                icon: data.list[3].weather[0].icon
+                temp: data.list[7].main.temp,
+                humidity: data.list[7].main.humidity,
+                wind: data.list[7].wind.speed,
+                icon: data.list[7].weather[0].icon
             }
             console.log(forecastOne);
             forecasts.push(forecastOne);
             console.log(forecasts);
-            var unixTwo = data.list[11].dt
+            var unixTwo = data.list[15].dt
             var forecastTwo = {
                 date: dayjs.unix(unixTwo).format("MMM D, YYYY"),
-                temp: data.list[11].main.temp,
-                humidity: data.list[11].main.humidity,
-                wind: data.list[11].wind.speed,
-                icon: data.list[11].weather[0].icon
+                temp: data.list[15].main.temp,
+                humidity: data.list[15].main.humidity,
+                wind: data.list[15].wind.speed,
+                icon: data.list[15].weather[0].icon
             }
             forecasts.push(forecastTwo);
-            var unixThree = data.list[19].dt
+            var unixThree = data.list[23].dt
             var forecastThree = {
                 date: dayjs.unix(unixThree).format("MMM D, YYYY"),
-                temp: data.list[19].main.temp,
-                humidity: data.list[19].main.humidity,
-                wind: data.list[19].wind.speed,
-                icon: data.list[19].weather[0].icon
+                temp: data.list[23].main.temp,
+                humidity: data.list[23].main.humidity,
+                wind: data.list[23].wind.speed,
+                icon: data.list[23].weather[0].icon
             }
             forecasts.push(forecastThree);
-            var unixFour = data.list[27].dt
+            var unixFour = data.list[31].dt
             var forecastFour = {
                 date: dayjs.unix(unixFour).format("MMM D, YYYY"),
-                temp: data.list[27].main.temp,
-                humidity: data.list[27].main.humidity,
-                wind: data.list[27].wind.speed,
-                icon: data.list[27].weather[0].icon
+                temp: data.list[31].main.temp,
+                humidity: data.list[31].main.humidity,
+                wind: data.list[31].wind.speed,
+                icon: data.list[31].weather[0].icon
             }
             forecasts.push(forecastFour);
-            var unixFive = data.list[35].dt
+            var unixFive = data.list[39].dt
             var forecastFive = {
                 date: dayjs.unix(unixFive).format("MMM D, YYYY"),
-                temp: data.list[35].main.temp,
-                humidity: data.list[35].main.humidity,
-                wind: data.list[35].wind.speed,
-                icon: data.list[35].weather[0].icon
+                temp: data.list[39].main.temp,
+                humidity: data.list[39].main.humidity,
+                wind: data.list[39].wind.speed,
+                icon: data.list[39].weather[0].icon
             }
             forecasts.push(forecastFive);
             localStorage.setItem("forecasts", JSON.stringify(forecasts));
