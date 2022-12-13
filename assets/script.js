@@ -63,8 +63,10 @@ searchButton.addEventListener("click", async function () {
         })
         .then (function (data) {
             console.log(data)
+            var unix = data.dt
             var currentWeather = {
                 name: data.name,
+                date: dayjs.unix(unix).format("MMM D, YYYY"),
                 temp: data.main.temp,
                 humidity: data.main.humidity,
                 wind: data.wind.speed
