@@ -7,8 +7,7 @@ var searchButton = document.querySelector("#search-button");
 var savedCitiesDisplay = document.querySelector("#saved-cities-list");
 
 var searchTerm; //This will be the saved, trimmed, and returned value of the search input
-// var searchLat = saveLat ();
-// var searchLon = saveLon();
+
 var geoApiKey = "f024b9c17a84301bd1b8cac7935e5c74";
 var weatherApiKey = "4c49146a17ca318a41d0d72135a101bf";
 
@@ -57,9 +56,23 @@ searchButton.addEventListener("click", async function () {
     var searchLon = currentCity.longitude;
     console.log(searchLat);
     console.log(searchLon);
-    var currentWeatherUrl = "http://api.openweathermap.org/data/2.5/forecast?lat=" + searchLat + "&lon=" + searchLon + "&appid=" + weatherApiKey
-    console.log(currentWeatherUrl);
+    var currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" +searchLat + "&lon=" + searchLon + "&units=imperial&appid=" +weatherApiKey
     await fetch(currentWeatherUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then (function (data) {
+            var currentWeather = {
+                name: data.name,
+                temp: data.main.temp,
+                humidity: data.main.humidity,
+                wind: data.wind.speed
+            }
+            localStorage.setItem("current weather", JSON.stringify(currentWeather));
+        })
+    var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + searchLat + "&lon=" + searchLon + "&units=imperial&appid=" + weatherApiKey
+    console.log(forecastUrl);
+    await fetch(forecastUrl)
         .then(function (response) {
             return response.json();
         })
@@ -67,30 +80,6 @@ searchButton.addEventListener("click", async function () {
             console.log(data)
         })
 })
-// var currentCity = getCurrentCity();
-// console.log(currentCity);
-// var searchLat = currentCity.latitude;
-// var searchLon = currentCity.longitude;
-// console.log(searchLat);
-// console.log(searchLon);
-// var currentWeatherUrl = "api.openweathermap.org/data/2.5/forecast?lat=" + searchLat + "&lon=" + searchLon + "&appid=" + weatherApiKey
-// console.log(currentWeatherUrl);
-// fetch(currentWeatherUrl)
-// .then(function (response) {
-//     return response.json();
-// })
-// .then (function (data) {
-//  console.log(data);
-// });
-// }
-// )})
 
-function getCurrentWeather(currentWeatherUrl) {
-    fetch(currentWeatherUrl)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data);
-        })
-}
+
+
