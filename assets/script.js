@@ -25,11 +25,17 @@ function checkStorage() {
 
 function getCurrentCity() {
     var currentCity = JSON.parse(localStorage.getItem("search city"));
-    //currentCity = JSON.parse(currentCity);
     console.log(currentCity);
     return currentCity;
 }
 
+ function printCurrentWeather() {
+    var currentCity = JSON.parse(localStorage.getItem("current weather"));
+    console.log(currentCity);
+    var cityName = document.createElement("h3");
+    cityName.textContent = currentCity.name;
+    currentWeatherDisplay.append(cityName);
+ }
 
 searchButton.addEventListener("click", async function () {
     searchTerm = searchInput.value;
@@ -133,6 +139,9 @@ searchButton.addEventListener("click", async function () {
             forecasts.push(forecastFive);
             localStorage.setItem("forecasts", JSON.stringify(forecasts));
         })
+    printCurrentWeather();
+    //printForecast();
+    //printSavedCities();
 })
 
 
