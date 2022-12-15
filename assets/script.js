@@ -37,15 +37,17 @@ function getCurrentCity() {
     currentDate.textContent = currentCity.date;
     var icon = currentCity.icon;
     console.log(icon);
-     var iconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
-     console.log(iconUrl);
+    var iconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+    console.log(iconUrl);
     var currentIcon = document.createElement("img");
     currentIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
-    currentWeatherDisplay.innerHTML = ""
+    var weatherSummary = document.createElement("p");
+    weatherSummary.textContent = "The current temperature outside is " + currentCity.temp + "°F, but it feels like it's " + currentCity.feels_like + "°F. The wind speed is " + currentCity.wind + " miles per hour, and the relative humidity is " + currentCity.humidity + "%.";
+    currentWeatherDisplay.innerHTML = "";
     currentWeatherDisplay.append(cityName);
     currentWeatherDisplay.append(currentDate);
     currentWeatherDisplay.append(currentIcon);
-    
+    currentWeatherDisplay.append(weatherSummary);
  }
 
 searchButton.addEventListener("click", async function () {
@@ -85,6 +87,7 @@ searchButton.addEventListener("click", async function () {
                 name: data.name,
                 date: dayjs.unix(unix).format("MMM D, YYYY"),
                 temp: data.main.temp,
+                feels_like: data.main.feels_like,
                 humidity: data.main.humidity,
                 wind: data.wind.speed,
                 icon: data.weather[0].icon,
