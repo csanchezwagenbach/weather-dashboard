@@ -85,10 +85,19 @@ function printSavedCities() {
     }
 }
 
+ savedCitiesDisplay.addEventListener("click", ".list-group-item", searchClickedCity)
+
+
 function renderPage() {
     printCurrentWeather();
     printForecast();
     printSavedCities();
+}
+
+function searchClickedCity (event) {
+    var clickedCity = $(event.target);
+    var newCity = clickedCity.text.valueOf();
+    console.log(newCity);
 }
 
 searchButton.addEventListener("click", async function () {
@@ -197,6 +206,5 @@ searchButton.addEventListener("click", async function () {
         })
     renderPage();
 })
+
 renderPage();
-
-
