@@ -29,7 +29,7 @@ function getCurrentCity() {
     return currentCity;
 }
 
- function printCurrentWeather() {
+function printCurrentWeather() {
     var currentCity = JSON.parse(localStorage.getItem("current weather"));
     var cityName = document.createElement("h3");
     cityName.textContent = currentCity.name;
@@ -48,7 +48,30 @@ function getCurrentCity() {
     currentWeatherDisplay.append(currentDate);
     currentWeatherDisplay.append(currentIcon);
     currentWeatherDisplay.append(weatherSummary);
- }
+}
+
+function printForecast () {
+    var forecasts = JSON.parse(localStorage.getItem("forecasts"));
+    for (var i = 0; i < forecasts.length; i++) {
+    var forecastCard = document.createElement("div");
+    forecastCard.classList.add("card");
+    forecastCard.setAttribute("style", "width: 18rem;");
+    var forecastIcon = document.createElement("img");
+    forecastIcon.classList.add("card-img-top");
+    forecastIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + forecasts[i].icon + "@2x.png");
+    forecastCard.append(forecastIcon);
+    var forecastBody = document.createElement("div");
+    forecastBody.classList.add("card-body");
+    var forecastDate = document.createElement("h5");
+    forecastDate.textContent = forecasts[i].date;
+    forecastBody.append(forecastDate);
+    var forecastSummary = document.createElement("p");
+    forecastSummary.textContent = "On " + dayjs(forecasts[i].date).format("dddd") + " the temperature outside will be " + forecasts[i].temp + "°F. The wind speed will be " + forecasts[i].wind + "miles per hour, and the relative humidity will be " + forecasts[i].humidity + "%.";
+    forecastBody.append(forecastSummary);
+    forecastCard.append(forecastBody);
+    futureForeCastDisplay.append(forecastCard);    
+    }
+}
 
 searchButton.addEventListener("click", async function () {
     searchTerm = searchInput.value;
@@ -59,28 +82,29 @@ searchButton.addEventListener("click", async function () {
         .then(function (response) {
             return response.json();
         })
-        .then(function (data) { 
+        .then(function (data) {
             var searchCity = {
-        name: data[0].name,
-        latitude: data[0].lat.toFixed(2),
-        longitude: data[0].lon.toFixed(2),
-    }
-    console.log(searchCity);
-    var savedCities = checkStorage();
-    savedCities.push(searchCity);
-    localStorage.setItem("search city", JSON.stringify(searchCity));
-    localStorage.setItem("saved cities", JSON.stringify(savedCities))})
+                name: data[0].name,
+                latitude: data[0].lat.toFixed(2),
+                longitude: data[0].lon.toFixed(2),
+            }
+            console.log(searchCity);
+            var savedCities = checkStorage();
+            savedCities.push(searchCity);
+            localStorage.setItem("search city", JSON.stringify(searchCity));
+            localStorage.setItem("saved cities", JSON.stringify(savedCities))
+        })
     var currentCity = getCurrentCity();
     var searchLat = currentCity.latitude;
     var searchLon = currentCity.longitude;
     console.log(searchLat);
     console.log(searchLon);
-    var currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" +searchLat + "&lon=" + searchLon + "&units=imperial&appid=" +weatherApiKey
+    var currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + searchLat + "&lon=" + searchLon + "&units=imperial&appid=" + weatherApiKey
     await fetch(currentWeatherUrl)
         .then(function (response) {
             return response.json();
         })
-        .then (function (data) {
+        .then(function (data) {
             console.log(data)
             var unix = data.dt
             var currentWeather = {
@@ -106,7 +130,7 @@ searchButton.addEventListener("click", async function () {
             var unixOne = data.list[7].dt
             console.log(dayjs.unix(unixOne).format("MMM D, YYYY"))
             var forecastOne = {
-                date: dayjs.unix(unixOne).format("MMM D, YYYY"),
+                date: dayjs.unix(unixOne).format("MMMM D, YYYY"),
                 temp: data.list[7].main.temp,
                 humidity: data.list[7].main.humidity,
                 wind: data.list[7].wind.speed,
@@ -117,7 +141,7 @@ searchButton.addEventListener("click", async function () {
             console.log(forecasts);
             var unixTwo = data.list[15].dt
             var forecastTwo = {
-                date: dayjs.unix(unixTwo).format("MMM D, YYYY"),
+                date: dayjs.unix(unixTwo).format("MMMM D, YYYY"),
                 temp: data.list[15].main.temp,
                 humidity: data.list[15].main.humidity,
                 wind: data.list[15].wind.speed,
@@ -126,7 +150,7 @@ searchButton.addEventListener("click", async function () {
             forecasts.push(forecastTwo);
             var unixThree = data.list[23].dt
             var forecastThree = {
-                date: dayjs.unix(unixThree).format("MMM D, YYYY"),
+                date: dayjs.unix(unixThree).format("MMMM D, YYYY"),
                 temp: data.list[23].main.temp,
                 humidity: data.list[23].main.humidity,
                 wind: data.list[23].wind.speed,
@@ -135,7 +159,7 @@ searchButton.addEventListener("click", async function () {
             forecasts.push(forecastThree);
             var unixFour = data.list[31].dt
             var forecastFour = {
-                date: dayjs.unix(unixFour).format("MMM D, YYYY"),
+                date: dayjs.unix(unixFour).format("MMMM D, YYYY"),
                 temp: data.list[31].main.temp,
                 humidity: data.list[31].main.humidity,
                 wind: data.list[31].wind.speed,
@@ -144,7 +168,7 @@ searchButton.addEventListener("click", async function () {
             forecasts.push(forecastFour);
             var unixFive = data.list[39].dt
             var forecastFive = {
-                date: dayjs.unix(unixFive).format("MMM D, YYYY"),
+                date: dayjs.unix(unixFive).format("MMMM D, YYYY"),
                 temp: data.list[39].main.temp,
                 humidity: data.list[39].main.humidity,
                 wind: data.list[39].wind.speed,
@@ -154,7 +178,7 @@ searchButton.addEventListener("click", async function () {
             localStorage.setItem("forecasts", JSON.stringify(forecasts));
         })
     printCurrentWeather();
-    //printForecast();
+    printForecast();
     //printSavedCities();
 })
 
