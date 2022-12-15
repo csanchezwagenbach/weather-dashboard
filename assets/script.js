@@ -74,6 +74,17 @@ function printForecast () {
     }
 }
 
+function printSavedCities() {
+    var cities = JSON.parse(localStorage.getItem("saved cities"));
+    savedCitiesDisplay.innerHTML = "";
+    for (var i = 0; i < cities.length; i++) {
+        var city = document.createElement("li");
+        city.classList.add("list-group-item");
+        city.textContent = cities[i].name;
+        savedCitiesDisplay.append(city);
+    }
+}
+
 searchButton.addEventListener("click", async function () {
     searchTerm = searchInput.value;
     console.log(searchInput.value)
@@ -180,7 +191,7 @@ searchButton.addEventListener("click", async function () {
         })
     printCurrentWeather();
     printForecast();
-    //printSavedCities();
+    printSavedCities();
 })
 
 
