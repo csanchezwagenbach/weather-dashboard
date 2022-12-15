@@ -37,10 +37,11 @@ function getCurrentCity() {
     currentDate.textContent = currentCity.date;
     var icon = currentCity.icon;
     console.log(icon);
-    // var iconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
-    // console.log(iconUrl);
+     var iconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+     console.log(iconUrl);
     var currentIcon = document.createElement("img");
-    currentIcon.setAttribute("src", '"http://openweathermap.org/img/wn/" + icon + "@2x.png"');
+    currentIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
+    currentWeatherDisplay.innerHTML = ""
     currentWeatherDisplay.append(cityName);
     currentWeatherDisplay.append(currentDate);
     currentWeatherDisplay.append(currentIcon);
