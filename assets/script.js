@@ -42,7 +42,7 @@ function printCurrentWeather() {
     var currentIcon = document.createElement("img");
     currentIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
     var weatherSummary = document.createElement("p");
-    weatherSummary.textContent = "The current temperature outside is " + currentCity.temp + "°F, but it feels like it's " + currentCity.feels_like + "°F. The wind speed is " + currentCity.wind + " miles per hour, and the relative humidity is " + currentCity.humidity + "%.";
+    weatherSummary.textContent = "The current temperature outside is " + currentCity.temp + "°F, but it feels like it's " + currentCity.feels_like + " °F. The wind speed is " + currentCity.wind + " miles per hour, and the relative humidity is " + currentCity.humidity + "%.";
     currentWeatherDisplay.innerHTML = "";
     currentWeatherDisplay.append(cityName);
     currentWeatherDisplay.append(currentDate);
@@ -67,7 +67,7 @@ function printForecast () {
     forecastDate.textContent = forecasts[i].date;
     forecastBody.append(forecastDate);
     var forecastSummary = document.createElement("p");
-    forecastSummary.textContent = "On " + dayjs(forecasts[i].date).format("dddd") + " the temperature outside will be " + forecasts[i].temp + "°F. The wind speed will be " + forecasts[i].wind + "miles per hour, and the relative humidity will be " + forecasts[i].humidity + "%.";
+    forecastSummary.textContent = "On " + dayjs(forecasts[i].date).format("dddd") + " the temperature outside will be " + forecasts[i].temp + " °F. The wind speed will be " + forecasts[i].wind + " miles per hour, and the relative humidity will be " + forecasts[i].humidity + "%.";
     forecastBody.append(forecastSummary);
     forecastCard.append(forecastBody);
     futureForeCastDisplay.append(forecastCard);    
@@ -83,6 +83,12 @@ function printSavedCities() {
         city.textContent = cities[i].name;
         savedCitiesDisplay.append(city);
     }
+}
+
+function renderPage() {
+    printCurrentWeather();
+    printForecast();
+    printSavedCities();
 }
 
 searchButton.addEventListener("click", async function () {
@@ -189,10 +195,8 @@ searchButton.addEventListener("click", async function () {
             forecasts.push(forecastFive);
             localStorage.setItem("forecasts", JSON.stringify(forecasts));
         })
-    printCurrentWeather();
-    printForecast();
-    printSavedCities();
+    renderPage();
 })
-
+renderPage();
 
 
