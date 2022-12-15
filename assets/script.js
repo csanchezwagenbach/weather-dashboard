@@ -52,6 +52,7 @@ function printCurrentWeather() {
 
 function printForecast () {
     var forecasts = JSON.parse(localStorage.getItem("forecasts"));
+    futureForeCastDisplay.innerHTML = "";
     for (var i = 0; i < forecasts.length; i++) {
     var forecastCard = document.createElement("div");
     forecastCard.classList.add("card");
