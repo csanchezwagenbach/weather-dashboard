@@ -12,6 +12,16 @@ No special steps required for installation. Application may be accessed on any i
 
 ## Usage
 
+Upon loading the page, the user is with a search bar where they may input a city they would like to see the weather forecast for and save to their saved cities. Upon clicking "Search," the city will be added to their saved cities and the current weather and forecast for that searched city will print to the page. The two screenshots below represent both the waiting search area upon the page loading, and the display a user will see upon searching for a city.
+![Search Area](./assets/Images/Screenshot_20221216_024452.png)
+![Current Weather Forecast](./assets/Images/Screenshot_20221216_024526.png)
+
+If the user so desires, they may enter a new city and search. The new city will be added to the list of their searched cities, and the weather and forecast for that new city will print to the page. The screenshot below depicts what a user would see upon entering a second city and clicking "Search."
+![Current Weather for New City](./assets/Images/Screenshot_20221216_024602.png)
+
+At any point, if the user navigates away from the page, when they return, their searched cities will still be displayed and print to the page. Should the user click any of the cities on the list, that city's current weather and forecast will print to the page.  A user may clear their history at any time by clearing their local storage. The screenshot below calls attention to the printed city names that may be printed so that the user may see the weather for any city in their search history.
+![Searched Cities History](./assets/Images/Screenshot_20221216_024718.png)
+
 ## Credits
 
 This project could not have been built without the teams building and maintaining the Open Weather Map APIs.
