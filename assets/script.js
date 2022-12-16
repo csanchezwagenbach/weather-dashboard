@@ -1,4 +1,4 @@
-console.log("Hello, world");
+
 
 var currentWeatherDisplay = document.querySelector("#current-weather-display");
 var futureForeCastDisplay = document.querySelector("#future-forecast-display");
@@ -6,7 +6,7 @@ var searchInput = document.querySelector("#search-term");
 var searchButton = document.querySelector("#search-button");
 var savedCitiesDisplay = document.querySelector("#saved-cities-list");
 
-var searchTerm; //This will be the saved, trimmed, and returned value of the search input
+var searchTerm; 
 
 var geoApiKey = "f024b9c17a84301bd1b8cac7935e5c74";
 var weatherApiKey = "4c49146a17ca318a41d0d72135a101bf";
@@ -25,7 +25,6 @@ function checkStorage() {
 
 function getCurrentCity() {
     var currentCity = JSON.parse(localStorage.getItem("search city"));
-    console.log(currentCity);
     return currentCity;
 }
 
@@ -36,9 +35,7 @@ function printCurrentWeather() {
     var currentDate = document.createElement("h5");
     currentDate.textContent = currentCity.date;
     var icon = currentCity.icon;
-    console.log(icon);
     var iconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
-    console.log(iconUrl);
     var currentIcon = document.createElement("img");
     currentIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
     var weatherSummary = document.createElement("p");
@@ -96,7 +93,6 @@ function renderPage() {
 
 async function searchClickedCity (event) {
     var clickedCity = event.target.textContent;
-    console.log(clickedCity);
     searchTerm = clickedCity;
     var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + geoApiKey;
     await fetch(geoCodeUrl)
@@ -109,11 +105,9 @@ async function searchClickedCity (event) {
                 latitude: data[0].lat.toFixed(2),
                 longitude: data[0].lon.toFixed(2),
             }
-            console.log(searchCity);
             localStorage.setItem("search city", JSON.stringify(searchCity));
         })
     var currentCity = getCurrentCity();
-    console.log(currentCity);
     var searchLat = currentCity.latitude;
     var searchLon = currentCity.longitude;
     var currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + searchLat + "&lon=" + searchLon + "&units=imperial&appid=" + weatherApiKey
@@ -122,7 +116,6 @@ async function searchClickedCity (event) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data)
             var unix = data.dt
             var currentWeather = {
                 name: data.name,
@@ -136,16 +129,13 @@ async function searchClickedCity (event) {
             localStorage.setItem("current weather", JSON.stringify(currentWeather));
         })
     var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + searchLat + "&lon=" + searchLon + "&units=imperial&appid=" + weatherApiKey
-    console.log(forecastUrl);
     await fetch(forecastUrl)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
             var forecasts = [];
             var unixOne = data.list[7].dt
-            console.log(dayjs.unix(unixOne).format("MMM D, YYYY"))
             var forecastOne = {
                 date: dayjs.unix(unixOne).format("MMMM D, YYYY"),
                 temp: data.list[7].main.temp,
@@ -153,9 +143,7 @@ async function searchClickedCity (event) {
                 wind: data.list[7].wind.speed,
                 icon: data.list[7].weather[0].icon
             }
-            console.log(forecastOne);
             forecasts.push(forecastOne);
-            console.log(forecasts);
             var unixTwo = data.list[15].dt
             var forecastTwo = {
                 date: dayjs.unix(unixTwo).format("MMMM D, YYYY"),
@@ -199,8 +187,6 @@ async function searchClickedCity (event) {
 
 searchButton.addEventListener("click", async function () {
     searchTerm = searchInput.value;
-    console.log(searchInput.value)
-    console.log(searchTerm);
     var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + geoApiKey;
     await fetch(geoCodeUrl)
         .then(function (response) {
@@ -212,7 +198,6 @@ searchButton.addEventListener("click", async function () {
                 latitude: data[0].lat.toFixed(2),
                 longitude: data[0].lon.toFixed(2),
             }
-            console.log(searchCity);
             var savedCities = checkStorage();
             savedCities.push(searchCity);
             localStorage.setItem("search city", JSON.stringify(searchCity));
@@ -221,15 +206,12 @@ searchButton.addEventListener("click", async function () {
     var currentCity = getCurrentCity();
     var searchLat = currentCity.latitude;
     var searchLon = currentCity.longitude;
-    console.log(searchLat);
-    console.log(searchLon);
     var currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + searchLat + "&lon=" + searchLon + "&units=imperial&appid=" + weatherApiKey
     await fetch(currentWeatherUrl)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data)
             var unix = data.dt
             var currentWeather = {
                 name: data.name,
@@ -243,16 +225,13 @@ searchButton.addEventListener("click", async function () {
             localStorage.setItem("current weather", JSON.stringify(currentWeather));
         })
     var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + searchLat + "&lon=" + searchLon + "&units=imperial&appid=" + weatherApiKey
-    console.log(forecastUrl);
     await fetch(forecastUrl)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
             var forecasts = [];
             var unixOne = data.list[7].dt
-            console.log(dayjs.unix(unixOne).format("MMM D, YYYY"))
             var forecastOne = {
                 date: dayjs.unix(unixOne).format("MMMM D, YYYY"),
                 temp: data.list[7].main.temp,
@@ -260,9 +239,7 @@ searchButton.addEventListener("click", async function () {
                 wind: data.list[7].wind.speed,
                 icon: data.list[7].weather[0].icon
             }
-            console.log(forecastOne);
             forecasts.push(forecastOne);
-            console.log(forecasts);
             var unixTwo = data.list[15].dt
             var forecastTwo = {
                 date: dayjs.unix(unixTwo).format("MMMM D, YYYY"),
