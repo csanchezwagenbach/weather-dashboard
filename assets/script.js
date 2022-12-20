@@ -42,7 +42,7 @@ function printCurrentWeather() {
     currentDate.textContent = currentCity.date;
     var icon = currentCity.icon;
     var currentIcon = document.createElement("img");
-    currentIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
+    currentIcon.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
     var weatherSummary = document.createElement("p");
     weatherSummary.textContent = "The current temperature outside is " + currentCity.temp + "°F, but it feels like it's " + currentCity.feels_like + " °F. The wind speed is " + currentCity.wind + " miles per hour, and the relative humidity is " + currentCity.humidity + "%.";
     currentWeatherDisplay.innerHTML = "";
@@ -63,7 +63,7 @@ function printForecast () {
     forecastCard.setAttribute("style", "width: 18rem;");
     var forecastIcon = document.createElement("img");
     forecastIcon.classList.add("card-img-top");
-    forecastIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + forecasts[i].icon + "@2x.png");
+    forecastIcon.setAttribute("src", "https://openweathermap.org/img/wn/" + forecasts[i].icon + "@2x.png");
     forecastCard.append(forecastIcon);
     var forecastBody = document.createElement("div");
     forecastBody.classList.add("card-body");
@@ -108,7 +108,7 @@ function renderPage() {
 async function searchClickedCity (event) {
     var clickedCity = event.target.textContent;
     searchTerm = clickedCity;
-    var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + geoApiKey;
+    var geoCodeUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + geoApiKey;
     await fetch(geoCodeUrl)
         .then(function (response) {
             return response.json();
@@ -203,7 +203,7 @@ async function searchClickedCity (event) {
 
 searchButton.addEventListener("click", async function () {
     searchTerm = searchInput.value;
-    var geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + geoApiKey;
+    var geoCodeUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + searchTerm + "&limit=1&appid=" + geoApiKey;
     await fetch(geoCodeUrl)
         .then(function (response) {
             return response.json();
